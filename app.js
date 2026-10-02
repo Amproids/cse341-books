@@ -1,27 +1,16 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 import router from './src/router.js';
+import swaggerDocument from './src/docs/swagger.json' with { type: 'json' };
 
 const app = express();
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(router);
 
 app.get('/', (req, res) => {
   return res.status(200).json({ message: 'Server is running' });
-});
-
-app.get('/books', async (req, res) => {
-  try {
-    const books = await getDb()
-      .collection('books')
-      .find({})
-      .toArray();
-
-    return res.status(200).json(books);
-  } catch (error) {
-    console.error('Failed to retrieve books:', error.message);
-    return res.status(500).json({ message: 'Failed to retrieve books' });
-  }
 });
 
 export default app;
