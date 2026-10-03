@@ -25,6 +25,22 @@
           },
           "500": { "description": "Unexpected server or database error" }
         }
+      },
+      "post": {
+        "tags": ["Books"],
+        "summary": "Create a new book",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BookInput" }, "example": { "id": "b4", "authorId": "a1", "title": "Example Book Title", "publicationDate": "2026-01-15" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created book object",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } }
+          },
+          "400": { "description": "Missing required field, id already exists, or authorId does not match an existing author" },
+          "500": { "description": "Unexpected server or database error" }
+        }
       }
     },
     "/books/{id}": {
@@ -37,6 +53,34 @@
             "description": "The matching book object",
             "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } }
           },
+          "404": { "description": "No book exists with that id" },
+          "500": { "description": "Unexpected server or database error" }
+        }
+      },
+      "put": {
+        "tags": ["Books"],
+        "summary": "Update an existing book",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BookUpdateInput" }, "example": { "authorId": "a2", "title": "Updated Book Title", "publicationDate": "2026-02-20" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated book object",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } }
+          },
+          "400": { "description": "Missing required field, or authorId does not match an existing author" },
+          "404": { "description": "No book exists with that id" },
+          "500": { "description": "Unexpected server or database error" }
+        }
+      },
+      "delete": {
+        "tags": ["Books"],
+        "summary": "Delete an existing book",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "204": { "description": "Book deleted" },
           "404": { "description": "No book exists with that id" },
           "500": { "description": "Unexpected server or database error" }
         }
@@ -122,7 +166,28 @@
         "type": "object",
         "properties": {
           "id": { "type": "string" },
-          "title": { "type": "string" }
+          "authorId": { "type": "string" },
+          "title": { "type": "string" },
+          "publicationDate": { "type": "string" }
+        }
+      },
+      "BookInput": {
+        "type": "object",
+        "required": ["id", "authorId", "title", "publicationDate"],
+        "properties": {
+          "id": { "type": "string" },
+          "authorId": { "type": "string" },
+          "title": { "type": "string" },
+          "publicationDate": { "type": "string" }
+        }
+      },
+      "BookUpdateInput": {
+        "type": "object",
+        "required": ["authorId", "title", "publicationDate"],
+        "properties": {
+          "authorId": { "type": "string" },
+          "title": { "type": "string" },
+          "publicationDate": { "type": "string" }
         }
       },
       "Author": {

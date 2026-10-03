@@ -1,5 +1,4 @@
-
-import { getDb } from '../../src/db/connect.js';
+import { getDb } from '../db/connect.js';
 
 const getAllBooks = async () => {
     const db = getDb();
@@ -15,4 +14,29 @@ const getBookById = async (bookId) => {
     return book;
 };
 
-export { getAllBooks, getBookById };
+const postBook = async (bookData) => {
+    const db = getDb();
+    const collection = db.collection('books');
+    await collection.insertOne(bookData);
+    return bookData;
+};
+
+const updateBook = async (bookId, bookData) => {
+    const db = getDb();
+    const collection = db.collection('books');
+    const result = await collection.findOneAndUpdate(
+        { id: bookId },
+        { $set: bookData },
+        { returnDocument: 'after' }
+    );
+    return result;
+};
+
+const deleteBook = async (bookId) => {
+    const db = getDb();
+    const collection = db.collection('books');
+    const result = await collection.deleteOne({ id: bookId });
+    return result.deletedCount > 0;
+};
+
+export { getAllBooks, getBookById, postBook, updateBook, deleteBook };
