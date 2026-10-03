@@ -6,8 +6,7 @@
     "version": "1.0.0"
   },
   "servers": [
-    { "url": "http://localhost:3000", "description": "Local" },
-    { "url": "https://cse341-books-n8sa.onrender.com", "description": "Deployed (Render)" }
+    { "url": "/", "description": "Current host" }
   ],
   "tags": [
     { "name": "Books" },
