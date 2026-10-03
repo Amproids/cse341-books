@@ -22,6 +22,12 @@ Install dependencies with `npm install`, then run the app locally with `npm run 
 
 `GET /books/:id` returns a single book by its `id` field, or a 404 message if no match is found.
 
+`POST /books` creates a book from the JSON request body (`id`, `authorId`, `title`, and `publicationDate` are required) and returns the created record, or a 400 message if a required field is missing, the `id` already exists, or the `authorId` doesn't match a real author.
+
+`PUT /books/:id` updates the book matching `id` with the JSON request body (`authorId`, `title`, and `publicationDate` are required) and returns the updated record, or a 400 message if a required field is missing or the `authorId` doesn't match a real author, or a 404 message if no match is found.
+
+`DELETE /books/:id` deletes the book matching `id` and returns a 204 status, or a 404 message if no match is found.
+
 `GET /authors` returns all authors as a JSON array.
 
 `GET /authors/:id` returns a single author by its `id` field, or a 404 message if no match is found.
